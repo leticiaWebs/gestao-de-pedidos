@@ -1,8 +1,8 @@
-package br.com.gestaopedidos.api_pedidos.application.controllers;
+package br.com.gestaopedidos.api_pedidos.adapters.controllers;
 
 import br.com.gestaopedidos.api_pedidos.application.dtos.PedidosDTO;
-import br.com.gestaopedidos.api_pedidos.domain.services.PedidosService;
-import br.com.gestaopedidos.api_pedidos.repository.PedidosRepository;
+import br.com.gestaopedidos.api_pedidos.application.services.PedidoService;
+import br.com.gestaopedidos.api_pedidos.domain.repositories.PedidoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,9 +15,9 @@ import java.util.List;
 public class PedidoController {
 
     @Autowired
-    private PedidosService pedidoService;
+    private PedidoService pedidoService;
     @Autowired
-    private PedidosRepository pedidosRepository;
+    private PedidoRepository pedidoRepository;
 
     @PostMapping
      public ResponseEntity<PedidosDTO> insert(@RequestBody PedidosDTO dto) {

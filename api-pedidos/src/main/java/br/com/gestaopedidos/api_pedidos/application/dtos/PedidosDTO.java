@@ -1,7 +1,7 @@
 package br.com.gestaopedidos.api_pedidos.application.dtos;
 
 import br.com.gestaopedidos.api_pedidos.domain.entities.ItemPedido;
-import br.com.gestaopedidos.api_pedidos.domain.entities.Pedidos;
+import br.com.gestaopedidos.api_pedidos.domain.entities.Pedido;
 import br.com.gestaopedidos.api_pedidos.domain.enums.StatusPedido;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,6 +23,7 @@ public class PedidosDTO implements Serializable {
     private Long version;
     private String pagamentoId;
 
+
     public PedidosDTO(Long id, String cliente, String total, StatusPedido status, List<ItemPedido> itens, Long version, String pagamentoId) {
         this.id = id;
         this.cliente = cliente;
@@ -32,8 +33,9 @@ public class PedidosDTO implements Serializable {
         this.version = version;
         this.pagamentoId = pagamentoId;
 
+
     }
-    public PedidosDTO(Pedidos entity) {
+    public PedidosDTO(Pedido entity) {
         this.id = entity.getId();
         this.cliente = entity.getCliente();
         this.total = entity.getTotal();

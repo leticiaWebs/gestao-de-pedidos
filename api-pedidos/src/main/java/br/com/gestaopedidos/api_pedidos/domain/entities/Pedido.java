@@ -11,7 +11,7 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name = "tb_pedidos")
-public class Pedidos {
+public class Pedido {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -24,6 +24,7 @@ public class Pedidos {
     private List<ItemPedido> itens;
     @Version
     private Long version;
+    @Column(unique = true, nullable = false)
     private String pagamentoId;
 
 }

@@ -1,10 +1,11 @@
-package br.com.gestaopedidos.api_pedidos.domain.services;
+package br.com.gestaopedidos.api_pedidos.application.services;
 
 import br.com.gestaopedidos.api_pedidos.application.dtos.PedidosDTO;
+import br.com.gestaopedidos.api_pedidos.application.services.exceptions.ResourceNotFoundException;
 import br.com.gestaopedidos.api_pedidos.domain.entities.ItemPedido;
-import br.com.gestaopedidos.api_pedidos.domain.entities.Pedidos;
-import br.com.gestaopedidos.api_pedidos.domain.services.exceptions.ResourceNotFoundException;
-import br.com.gestaopedidos.api_pedidos.repository.PedidosRepository;
+import br.com.gestaopedidos.api_pedidos.domain.entities.Pedido;
+import br.com.gestaopedidos.api_pedidos.domain.enums.StatusPedido;
+import br.com.gestaopedidos.api_pedidos.domain.repositories.PedidoRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,10 +16,15 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class PedidosService {
+public class PedidoService {
 
     @Autowired
-    private PedidosRepository pedidoRepository;
+    private PedidoRepository pedidoRepository;
+
+    public PedidoService(PedidoRepository pedidoRepository) {
+        this.pedidoRepository = pedidoRepository;
+    }
+
 
     public BigDecimal calcularValorTotal(List<ItemPedido> itensPedido) {
         if (itensPedido == null || itensPedido.isEmpty()) {
@@ -31,7 +37,7 @@ public class PedidosService {
 
     @Transactional
     public PedidosDTO insert(PedidosDTO dto) {
-        Pedidos entity = new Pedidos();
+        Pedido entity = new Pedido();
         entity.setId(dto.getId());
         entity.setCliente(dto.getCliente());
         entity.setTotal(dto.getTotal());
@@ -41,26 +47,25 @@ public class PedidosService {
         BigDecimal total = calcularValorTotal(dto.getItens());
         entity.setTotal(String.valueOf(total));
         entity.setVersion(dto.getVersion());
-        entity.setPagamentoId(dto.getPagamentoId());
         entity = pedidoRepository.save(entity);
         return new PedidosDTO(entity);
     }
 
     @Transactional
     public List<PedidosDTO> findAll() {
-        List<Pedidos> list  = pedidoRepository.findAll();
+        List<Pedido> list  = pedidoRepository.findAll();
         return list.stream().map(x -> new PedidosDTO(x)).collect(Collectors.toList());
     }
 
     public PedidosDTO findById(Long id) {
-        Optional<Pedidos> obj = pedidoRepository.findById(id);
-        Pedidos entity = obj.orElseThrow(() -> new ResourceNotFoundException("Pedido  nao encontrado"));
+        Optional<Pedido> obj = pedidoRepository.findById(id);
+        Pedido entity = obj.orElseThrow(() -> new ResourceNotFoundException("Pedido  nao encontrado"));
         return new PedidosDTO(entity);
     }
 
     @Transactional
     public PedidosDTO update(Long id, PedidosDTO dto) {
-        Pedidos entity = pedidoRepository.getReferenceById(id);
+        Pedido entity = pedidoRepository.getReferenceById(id);
         entity.setStatus(dto.getStatus());
         entity.setItens(dto.getItens());
 
@@ -74,4 +79,13 @@ public class PedidosService {
         return new PedidosDTO(entity);
     }
 
+
+    public void atualizarStatus(String pagamentoId, StatusPedido status) {
+        Optional<Pedido> pedidoOpt = pedidoRepository.findByPagamentoId(pagamentoId);
+        if (pedidoOpt.isPresent()) {
+            Pedido pedido = pedidoOpt.get();
+            pedido.setStatus(status);
+            pedidoRepository.save(pedido);
+        }
+    }
 }

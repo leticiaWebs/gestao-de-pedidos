@@ -1,4 +1,4 @@
-package br.com.gestaopedidos.api_pedidos.domain.services.exceptions;
+package br.com.gestaopedidos.api_pedidos.application.services.exceptions;
 
 public class DataBaseException extends RuntimeException{
 
