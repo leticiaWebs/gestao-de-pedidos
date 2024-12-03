@@ -1,6 +1,7 @@
 package br.com.gestaopedidos.api_pedidos.adapters.controllers;
 
 import br.com.gestaopedidos.api_pedidos.application.dtos.PedidosDTO;
+import br.com.gestaopedidos.api_pedidos.application.services.EnvioService;
 import br.com.gestaopedidos.api_pedidos.application.services.PedidoService;
 import br.com.gestaopedidos.api_pedidos.domain.repositories.PedidoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.util.List;
 
+import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
+
 @RestController
 @RequestMapping(value ="/pedidos")
 public class PedidoController {
@@ -18,11 +21,14 @@ public class PedidoController {
     private PedidoService pedidoService;
     @Autowired
     private PedidoRepository pedidoRepository;
+    @Autowired
+    private  EnvioService envioservice;
 
     @PostMapping
      public ResponseEntity<PedidosDTO> insert(@RequestBody PedidosDTO dto) {
         dto = pedidoService.insert(dto);
         URI uri = URI.create("/clientes/" + dto.getId());
+        envioservice.envioDadosPedido(dto.getId());
         return ResponseEntity.created(uri).body(dto);
     }
 

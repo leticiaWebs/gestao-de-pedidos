@@ -10,7 +10,6 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table(name = "tb_pedidos")
 public class Pedido {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,12 +18,14 @@ public class Pedido {
     private String  total;
     @Enumerated(EnumType.STRING)
     private StatusPedido status;
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "pedido_id")
+//    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+//    @JoinColumn(name = "pedido_id")
+    @ElementCollection
     private List<ItemPedido> itens;
-    @Version
+   @Version
     private Long version;
     @Column(unique = true, nullable = false)
     private String pagamentoId;
+
 
 }

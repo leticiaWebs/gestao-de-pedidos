@@ -47,6 +47,7 @@ public class PedidoService {
         BigDecimal total = calcularValorTotal(dto.getItens());
         entity.setTotal(String.valueOf(total));
         entity.setVersion(dto.getVersion());
+        entity.setPagamentoId(dto.getPagamentoId());
         entity = pedidoRepository.save(entity);
         return new PedidosDTO(entity);
     }
@@ -73,7 +74,6 @@ public class PedidoService {
                 .map(item -> item.getPreco().multiply(BigDecimal.valueOf(item.getQuantidade())))
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
         entity.setTotal(String.valueOf(novoTotal));
-
         entity.setVersion(dto.getVersion());
         entity = pedidoRepository.save(entity);
         return new PedidosDTO(entity);
@@ -88,4 +88,6 @@ public class PedidoService {
             pedidoRepository.save(pedido);
         }
     }
+
+//    public void removerEstoque()
 }

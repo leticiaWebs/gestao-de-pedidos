@@ -10,6 +10,7 @@ import lombok.Setter;
 import java.io.Serializable;
 import java.util.List;
 
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -24,13 +25,15 @@ public class PedidosDTO implements Serializable {
     private String pagamentoId;
 
 
-    public PedidosDTO(Long id, String cliente, String total, StatusPedido status, List<ItemPedido> itens, Long version, String pagamentoId) {
+    public PedidosDTO(Long id, String cliente, String total, StatusPedido status, List<ItemPedido> itens,
+                      Long version,
+                      String pagamentoId) {
         this.id = id;
         this.cliente = cliente;
         this.total = total;
         this.status = status;
         this.itens = itens;
-        this.version = version;
+       this.version = version;
         this.pagamentoId = pagamentoId;
 
 
