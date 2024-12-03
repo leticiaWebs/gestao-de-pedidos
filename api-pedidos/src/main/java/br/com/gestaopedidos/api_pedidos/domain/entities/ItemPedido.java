@@ -1,6 +1,6 @@
 package br.com.gestaopedidos.api_pedidos.domain.entities;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

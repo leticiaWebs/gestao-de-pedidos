@@ -1,4 +1,4 @@
-package br.com.gestaopedidos.api_pedidos.adapters;
+package br.com.gestaopedidos.api_pedidos.adapters.controllers;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

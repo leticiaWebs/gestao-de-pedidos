@@ -1,7 +1,6 @@
 package br.com.gestaopedidos.api_pedidos.application.services;
 
 
-import br.com.gestaopedidos.api_pedidos.application.dtos.PedidosDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
